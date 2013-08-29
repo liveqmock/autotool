@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+
+    <typeAlias alias="autoConf" type="com.topinfo.model.AutoConf"/>
+    <typeAlias alias="autoUpdate" type="com.topinfo.model.AutoUpdate"/>
+    
+   <select id="selectVersion">
+      select version();
+   </select>
+   
+   <insert id="insertAppConf" parameterClass="autoConf">
+        insert into appconf(appid,appname,apppath,appdb,createTime,updateTime,version) 
+        values
+         (#appid#,#appName#,#appPath#,#appDb#,now(),now(),#version#)
+   </insert>
+   
+   
+   <insert id="insertautoupdatelog" parameterClass="autoUpdate">
+    insert into appupdatelog(appid,version,status,jgdm,ip,`desc`,createTime,updateTime)
+     values 
+     (#appid#,#version#,#status#,#jgdm#,#ip#,#desc#,now(),now())
+   </insert>
+   
+   <select id="selectallapp" resultClass="autoConf">
+      select  appid,appName,appPath,appDb,createTime,updateTime,version from appconf
+   </select>
+   
+   <select id="getAppVersionByAppid" parameterClass="int" resultClass="autoConf">
+       select appid,appName,appPath,appDb,createTime,updateTime,version from  appconf where appid=#value#
+   </select>
+   
+   <update id="updateAutoAppVersion" parameterClass="autoConf">
+   
+      update appconf set version = #version#, updateTime=now() where appid = #appid#
+   
+   </update>
+   
+   <select id="queryAutoUpdateByJgdm" parameterClass="autoUpdate" resultClass="autoUpdate">
+       select appid,version from  appupdatelog where jgdm=#jgdm# and appid=#appid#  limit 1
+   </select>
+   
+   <update id="updateautoupdatelog" parameterClass="autoUpdate">
+      update appupdatelog set version = #version#, updateTime=now(),ip=#ip#,status=#status# where jgdm=#jgdm# and appid=#appid#
+   </update>
+   
+   <select id="getAllUpdateLog" resultClass="autoUpdate">
+       select appid,version,jgdm,status,ip,createTime,updateTime from  appupdatelog 
+   </select>
+       
+   
+</sqlMap>
