@@ -35,9 +35,7 @@ public class ConfigHelper {
      * <p>Description: </p>
      */
 
-    public static String  startServerdir = null;
-
-    public static String  shlogdir       = null;
+    public static String  shlogdir       = "/home/auto_sh_log.txt";
 
     public static String  superiorIp     = null;
 
@@ -45,7 +43,7 @@ public class ConfigHelper {
 
     public static Integer rate           = 60;
     
-    public static Integer port           = null;
+    public static Integer port           = 9999;
 
     public ConfigHelper() {
         String url = Thread.currentThread ().getContextClassLoader ().getResource ("").getFile () + "autoconf.properties";
@@ -57,8 +55,6 @@ public class ConfigHelper {
         } catch (IOException e) {
             logger.error ("autoconf.properties文件加载失败",e);
         } // 得到的是map集合
-        startServerdir = properties.getProperty ("startServer.dir");
-        shlogdir = properties.getProperty ("server.shlog");
         superiorIp = properties.getProperty ("server.Superior.ip");
         localjgdm = properties.getProperty ("local.jgdm");
         port = Integer.parseInt (properties.getProperty("server.port"));

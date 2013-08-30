@@ -29,7 +29,7 @@ import com.topinfo.util.ConfigHelper;
  */
 public class ServerClient {
 
-    static Logger                 logger    = Logger.getLogger (ServerClient.class);
+    static Logger      logger    = Logger.getLogger (ServerClient.class);
     public static ChannelFuture   future    = null;
     public static ClientBootstrap bootstrap = null;
 
@@ -51,8 +51,7 @@ public class ServerClient {
         try {
             Thread.sleep (1000);
         } catch (InterruptedException e) {
-            logger.equals (e);
-            e.printStackTrace ();
+            logger.error(e);
         }
         future.getChannel ().write (request);
         future.getChannel ().getCloseFuture ().awaitUninterruptibly ();

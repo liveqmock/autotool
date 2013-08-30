@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -118,12 +120,10 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
     
     private void exec(String param) throws Exception{
         Runtime rt = Runtime.getRuntime ();
-        String par = dealParam (param);
-        String shdir;
-        String dir = ConfigHelper.startServerdir;
-        if (dir.endsWith ("/")) shdir = dir;
-        else shdir = dir + "/";
-        String command = "sh " + shdir + "updateApp.sh " + par;
+        Map<String, String> par = dealParam (param);
+        String shdir = par.get("shelldir");
+        String cmd = par.get("cmd");
+        String command = "sh " + shdir + "updateApp.sh " + cmd;
         logger.error ( "pcs.command()" + command);
         Process pcs = rt.exec (command);
         PrintWriter outWriter = new PrintWriter (new File (ConfigHelper.shlogdir));
@@ -166,13 +166,17 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
 
     }
 
-    public static String dealParam(String param){
+    public static Map<String, String> dealParam(String param){
+    	Map<String, String> map = new HashMap<String, String>();
         String cmd = " ";
         String fileName = param.substring (param.lastIndexOf ("/") + 1);
         String dir = param.substring (0, param.lastIndexOf ("/"));
         String appName = fileName.substring (0, fileName.lastIndexOf ("."));
         cmd = cmd + dir + " " + appName + " " + appName;
-        return cmd;
+        String shelldir = dir+File.separator+appName+File.separator+"conf"+File.separator;
+        map.put("cmd", cmd);
+        map.put("shelldir", shelldir);
+        return map;
     }
 
     @Override

@@ -103,7 +103,7 @@ public class AutoNetServer {
             //
             System.out.println ("start 接收文件 ");
             Runtime rt = Runtime.getRuntime ();
-            String command = "sh " + AutoNetServer.config.startServerdir + "/updateApp.sh";
+            String command = "sh "  + "/updateApp.sh";
             Process pcs = rt.exec (command);
             PrintWriter outWriter = new PrintWriter (new File (AutoNetServer.config.shlogdir));
             BufferedReader br = new BufferedReader (new InputStreamReader (pcs.getInputStream ()));

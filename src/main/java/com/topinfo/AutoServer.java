@@ -71,7 +71,7 @@ public class AutoServer {
                     request.setHeader ("appid", autoConf.getAppid ());
                     request.setHeader ("appName", autoConf.getAppName ());
                     request.setHeader ("version", autoConf.getVersion ());
-                    request.setHeader ("appDb", autoConf.getAppDb ());
+                    request.setHeader ("appDb", autoConf.getAppDb());
                     request.setHeader ("jgdm", ConfigHelper.localjgdm);
                     logger.debug ("发起请求" + request);
                     ServerClient.connectRequest (uri, request);
